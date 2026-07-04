@@ -154,20 +154,55 @@
   @media(min-width:900px){.nav-cta{display:inline-flex;}}
 
   .burger{display:flex;width:22px;height:16px;flex-direction:column;justify-content:space-between;}
-  .burger span{height:1.5px;background:var(--text);width:100%;}
+  .burger span{height:1.5px;background:var(--text);width:100%;transition:transform .3s ease, opacity .3s ease;}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
   .mobile-toggle{display:block;}
   @media(min-width:900px){.mobile-toggle{display:none;}.nav-links{display:flex;}}
   @media(max-width:899px){.nav-links{display:none;}}
 
+  /* ---- Mobile dropdown menu (phones only — nav-links already hidden below 900px) ---- */
   .mobile-menu{
-    position:fixed;inset:0;top:68px;z-index:99;
-    background:rgba(6,10,20,0.98);backdrop-filter:blur(20px);
-    display:flex;flex-direction:column;gap:28px;
-    padding:48px 32px;
-    transform:translateX(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);
+    position:fixed;
+    top:66px;left:16px;right:16px;
+    z-index:99;
+    background:rgba(10,14,24,0.98);
+    backdrop-filter:blur(20px) saturate(140%);
+    -webkit-backdrop-filter:blur(20px) saturate(140%);
+    border:1px solid var(--border-strong);
+    border-radius:16px;
+    box-shadow:0 24px 48px -12px rgba(0,0,0,0.6);
+    display:flex;flex-direction:column;
+    padding:6px;
+    max-height:0;
+    overflow:hidden;
+    opacity:0;
+    transform:translateY(-10px);
+    transition:max-height .4s cubic-bezier(.2,.8,.2,1), opacity .3s ease, transform .3s ease;
   }
-  .mobile-menu.open{transform:translateX(0);}
-  .mobile-menu a{font-family:var(--serif);font-size:28px;color:var(--text);}
+  .mobile-menu.open{
+    max-height:520px;
+    opacity:1;
+    transform:translateY(0);
+  }
+  .mobile-menu a{
+    font-family:var(--sans);font-size:16px;font-weight:500;color:var(--text);
+    padding:15px 16px;
+    border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+    transition:background .25s ease, color .25s ease, padding-left .25s ease;
+  }
+  .mobile-menu a:last-of-type{border-bottom:none;}
+  .mobile-menu a:hover, .mobile-menu a:active{
+    color:var(--blue-pale);background:rgba(159,193,255,0.06);padding-left:20px;
+  }
+  .mobile-menu .mm-cta{
+    margin:8px 4px 4px;text-align:center;padding:14px 16px;border-radius:12px;
+    background:linear-gradient(135deg,var(--blue),#3a5bc0);color:#fff;font-weight:600;
+    border-bottom:none;justify-content:center;
+  }
+  @media(min-width:900px){.mobile-menu{display:none;}}
 
   /* ============ HERO ============ */
   .hero{
@@ -193,128 +228,77 @@
   }
   .hero-content .eyebrow{justify-content:center;margin-bottom:26px;}
 
-  /* ---- 3D laptop ---- */
-  .laptop-scene{
-    width:280px;height:210px;margin:0 auto 8px;
-    perspective:1400px;
+  /* ---- Hero laptop — colorful code screen, continuous right-to-left rotation ---- */
+  .hero-laptop-scene{
+    width:min(560px, 88vw);height:min(400px, 63vw);
+    margin:0 auto 8px;
+    perspective:1800px;
     position:relative;z-index:2;
   }
-  .laptop{
+  .hero-laptop{
     position:relative;width:100%;height:100%;
     transform-style:preserve-3d;
-    animation:laptopFloat 6.5s ease-in-out infinite, laptopSpin 20s linear infinite;
+    animation:heroLaptopFloat 6.5s ease-in-out infinite, heroLaptopSpin 22s linear infinite;
   }
-  @keyframes laptopFloat{
+  @keyframes heroLaptopFloat{
     0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-14px);}
+    50%{transform:translateY(-12px);}
   }
-  @keyframes laptopSpin{
-    from{transform:rotateX(calc(14deg + var(--tiltX,0deg))) rotateY(-22deg);}
-    50%{transform:rotateX(calc(14deg + var(--tiltX,0deg))) rotateY(22deg);}
-    to{transform:rotateX(calc(14deg + var(--tiltX,0deg))) rotateY(-22deg);}
+  /* rotates continuously in one direction: right edge sweeps toward the viewer and around to the left */
+  @keyframes heroLaptopSpin{
+    from{transform:rotateX(12deg) rotateY(0deg);}
+    to{transform:rotateX(12deg) rotateY(-360deg);}
   }
-  .laptop-base{
-    position:absolute;left:50%;top:64%;width:236px;height:150px;
-    margin-left:-118px;
-    transform:rotateX(88deg) translateZ(-72px);
-    background:linear-gradient(160deg,#141a2c,#050710);
-    border:1px solid var(--border-strong);
-    border-radius:8px;
-    box-shadow:0 0 40px rgba(0,0,0,0.5) inset;
+  .hl-base{
+    position:absolute;left:50%;top:66%;width:86%;height:36%;
+    margin-left:-43%;
+    transform:rotateX(88deg) translateZ(-90px);
+    background:linear-gradient(160deg,#1c2234,#050710);
+    border:1px solid rgba(125,155,219,0.35);
+    border-radius:9px;
+    box-shadow:0 0 50px rgba(0,0,0,0.55) inset;
   }
-  .laptop-base::after{
-    content:'';position:absolute;left:50%;top:10px;transform:translateX(-50%);
-    width:56px;height:5px;border-radius:3px;background:rgba(125,155,219,0.14);
+  .hl-base::after{
+    content:'';position:absolute;left:50%;top:9px;transform:translateX(-50%);
+    width:14%;height:5px;border-radius:3px;background:rgba(125,155,219,0.18);
   }
-  .laptop-screen{
-    position:absolute;left:50%;top:0;width:216px;height:148px;
-    margin-left:-108px;
+  .hl-screen{
+    position:absolute;left:50%;top:0;width:80%;height:66%;
+    margin-left:-40%;
     transform-origin:bottom center;
     transform:rotateX(-6deg);
-    background:linear-gradient(160deg,#0f1626,#040609);
-    border:1px solid var(--border-strong);
-    border-radius:10px 10px 5px 5px;
-    padding:9px;
-    box-shadow:0 40px 70px -25px rgba(0,0,0,0.65);
+    background:linear-gradient(160deg,#11141f,#04050a);
+    border:1px solid rgba(125,155,219,0.35);
+    border-radius:12px 12px 5px 5px;
+    padding:3%;
+    box-shadow:0 0 70px rgba(76,120,255,0.22), 0 45px 90px -25px rgba(0,0,0,0.7);
   }
-  .laptop-display{
-    width:100%;height:100%;border-radius:5px;overflow:hidden;position:relative;
-    background:linear-gradient(150deg,var(--blue-deep),#050710 75%);
-    border:1px solid rgba(125,155,219,0.14);
+  .hl-display{
+    width:100%;height:100%;border-radius:7px;overflow:hidden;position:relative;
+    background:#07080d;
+    border:1px solid rgba(125,155,219,0.16);
+    padding:9% 8%;
+    display:flex;flex-direction:column;gap:7%;
   }
-  .laptop-display .lp-nav{position:absolute;top:0;left:0;right:0;height:16px;background:rgba(125,155,219,0.08);display:flex;align-items:center;gap:4px;padding:0 8px;}
-  .laptop-display .lp-nav span{width:4px;height:4px;border-radius:50%;background:rgba(125,155,219,0.4);}
-  .laptop-display .lp-hero{position:absolute;top:28px;left:10px;right:10px;height:8px;border-radius:3px;background:rgba(125,155,219,0.35);}
-  .laptop-display .lp-line{position:absolute;left:10px;height:4px;border-radius:2px;background:rgba(125,155,219,0.18);}
-  .laptop-display .lp-block{position:absolute;border-radius:4px;background:rgba(125,155,219,0.12);border:1px solid rgba(125,155,219,0.16);}
-  .laptop-glow{
-    position:absolute;left:50%;bottom:10px;width:200px;height:40px;
+  .hl-row{display:flex;gap:6px;align-items:center;}
+  .hl-chip{height:6px;border-radius:2px;flex-shrink:0;}
+  .hl-glow{
+    position:absolute;left:50%;bottom:6%;width:60%;height:34%;
     transform:translateX(-50%);
-    background:radial-gradient(ellipse, rgba(38,72,168,0.35), transparent 70%);
-    filter:blur(4px);z-index:1;
+    background:radial-gradient(ellipse, rgba(255,110,110,0.18), transparent 70%);
+    filter:blur(10px);pointer-events:none;
+  }
+  .hero-laptop-glow{
+    position:absolute;left:50%;bottom:2%;width:70%;height:44px;
+    transform:translateX(-50%);
+    background:radial-gradient(ellipse, rgba(38,72,168,0.4), transparent 70%);
+    filter:blur(6px);z-index:1;
   }
   @media(max-width:560px){
-    .laptop-scene{width:220px;height:170px;}
-    .laptop-base{width:190px;height:120px;margin-left:-95px;}
-    .laptop-screen{width:172px;height:118px;margin-left:-86px;}
+    .hero-laptop-scene{width:88vw;height:64vw;}
   }
   @media(prefers-reduced-motion: reduce){
-    .laptop{animation:none;transform:rotateX(14deg) rotateY(0deg);}
-  }
-
-  /* ---- Background rotating laptop with code (hero backdrop) ---- */
-  .hero-bg-laptop-wrap{
-    position:absolute;
-    top:50%;left:50%;
-    width:min(880px, 115vw);height:min(620px, 82vw);
-    transform:translate(-50%,-50%);
-    z-index:1;
-    opacity:0.32;
-    perspective:2200px;
-    pointer-events:none;
-  }
-  .hero-bg-laptop{
-    position:relative;width:100%;height:100%;
-    transform-style:preserve-3d;
-    animation:bgLaptopSpin 28s linear infinite;
-  }
-  @keyframes bgLaptopSpin{
-    from{transform:rotateX(15deg) rotateY(0deg);}
-    to{transform:rotateX(15deg) rotateY(360deg);}
-  }
-  .hero-bg-laptop .bgl-base{
-    position:absolute;left:50%;top:65%;width:72%;height:44%;
-    margin-left:-36%;
-    transform:rotateX(88deg) translateZ(-100px);
-    background:linear-gradient(160deg,#141a2c,#050710);
-    border:1px solid var(--border-strong);
-    border-radius:10px;
-    box-shadow:0 0 60px rgba(0,0,0,0.5) inset;
-  }
-  .hero-bg-laptop .bgl-screen{
-    position:absolute;left:50%;top:0;width:66%;height:62%;
-    margin-left:-33%;
-    transform-origin:bottom center;
-    transform:rotateX(-6deg);
-    background:linear-gradient(160deg,#0f1626,#040609);
-    border:1px solid var(--border-strong);
-    border-radius:16px 16px 6px 6px;
-    padding:2.4%;
-    box-shadow:0 60px 110px -30px rgba(0,0,0,0.7);
-  }
-  .hero-bg-laptop .bgl-display{
-    width:100%;height:100%;border-radius:9px;overflow:hidden;position:relative;
-    background:linear-gradient(150deg,var(--blue-deep),#050710 75%);
-    border:1px solid rgba(125,155,219,0.14);
-    padding:5% 6%;
-    display:flex;flex-direction:column;justify-content:center;gap:9px;
-  }
-  .bgl-line{height:7px;border-radius:3px;}
-  @media(max-width:640px){
-    .hero-bg-laptop-wrap{opacity:0.22;}
-  }
-  @media(prefers-reduced-motion: reduce){
-    .hero-bg-laptop{animation:none;transform:rotateX(15deg) rotateY(-25deg);}
+    .hero-laptop{animation:none;transform:rotateX(12deg) rotateY(-24deg);}
   }
   .hero h1{
     font-size:clamp(38px,6.4vw,74px);
@@ -654,18 +638,19 @@
         <li><a href="#contact">Контакт</a></li>
       </ul>
       <a href="#contact" class="btn btn-primary nav-cta">Започни проект</a>
-      <button class="burger mobile-toggle" id="burgerBtn" aria-label="Мени"><span></span><span></span><span></span></button>
+      <button class="burger mobile-toggle" id="burgerBtn" aria-label="Мени" aria-expanded="false"><span></span><span></span><span></span></button>
     </nav>
   </div>
 </header>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#home">Почетна</a>
-  <a href="#services">Услуги</a>
-  <a href="#process">Процес</a>
-  <a href="#portfolio">Портфолио</a>
-  <a href="#pricing">Цени</a>
-  <a href="#contact">Контакт</a>
+  <a href="#home">Почетна <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3l6 5-6 5"/></svg></a>
+  <a href="#services">Услуги <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3l6 5-6 5"/></svg></a>
+  <a href="#process">Процес <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3l6 5-6 5"/></svg></a>
+  <a href="#portfolio">Портфолио <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3l6 5-6 5"/></svg></a>
+  <a href="#pricing">Цени <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3l6 5-6 5"/></svg></a>
+  <a href="#contact">Контакт <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3l6 5-6 5"/></svg></a>
+  <a href="#contact" class="mm-cta">Започни проект</a>
 </div>
 
 <!-- ============ HERO ============ -->
@@ -680,41 +665,23 @@
     </svg>
   </div>
 
-  <div class="hero-bg-laptop-wrap" aria-hidden="true">
-    <div class="hero-bg-laptop">
-      <div class="bgl-base"></div>
-      <div class="bgl-screen">
-        <div class="bgl-display">
-          <div class="bgl-line" style="width:34%;background:rgba(125,155,219,0.55);"></div>
-          <div class="bgl-line" style="width:58%;margin-left:16px;background:rgba(159,193,255,0.35);"></div>
-          <div class="bgl-line" style="width:46%;margin-left:16px;background:rgba(180,142,255,0.4);"></div>
-          <div class="bgl-line" style="width:64%;margin-left:32px;background:rgba(95,216,196,0.35);"></div>
-          <div class="bgl-line" style="width:40%;margin-left:32px;background:rgba(125,155,219,0.3);"></div>
-          <div class="bgl-line" style="width:52%;margin-left:16px;background:rgba(159,193,255,0.35);"></div>
-          <div class="bgl-line" style="width:28%;background:rgba(125,155,219,0.55);"></div>
-          <div class="bgl-line" style="width:60%;margin-left:16px;background:rgba(180,142,255,0.35);"></div>
-          <div class="bgl-line" style="width:44%;margin-left:32px;background:rgba(95,216,196,0.4);"></div>
-          <div class="bgl-line" style="width:36%;margin-left:32px;background:rgba(125,155,219,0.3);"></div>
-          <div class="bgl-line" style="width:50%;margin-left:16px;background:rgba(159,193,255,0.35);"></div>
-          <div class="bgl-line" style="width:30%;background:rgba(125,155,219,0.55);"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="wrap">
     <div class="hero-content">
-      <div class="laptop-scene" aria-hidden="true">
-        <div class="laptop-glow"></div>
-        <div class="laptop">
-          <div class="laptop-base"></div>
-          <div class="laptop-screen">
-            <div class="laptop-display">
-              <div class="lp-nav"><span></span><span></span><span></span></div>
-              <div class="lp-hero"></div>
-              <div class="lp-line" style="top:44px;width:70%;"></div>
-              <div class="lp-line" style="top:54px;width:45%;"></div>
-              <div class="lp-block" style="left:10px;right:10px;top:66px;bottom:10px;"></div>
+      <div class="hero-laptop-scene" aria-hidden="true">
+        <div class="hero-laptop-glow"></div>
+        <div class="hero-laptop">
+          <div class="hl-base"></div>
+          <div class="hl-screen">
+            <div class="hl-display">
+              <div class="hl-glow"></div>
+              <div class="hl-row"><span class="hl-chip" style="width:10%;background:rgba(255,120,120,0.85);"></span><span class="hl-chip" style="width:22%;background:rgba(159,193,255,0.85);"></span><span class="hl-chip" style="width:14%;background:rgba(255,214,120,0.8);"></span></div>
+              <div class="hl-row" style="margin-left:5%;"><span class="hl-chip" style="width:18%;background:rgba(130,235,210,0.85);"></span><span class="hl-chip" style="width:30%;background:rgba(200,160,255,0.75);"></span></div>
+              <div class="hl-row" style="margin-left:5%;"><span class="hl-chip" style="width:12%;background:rgba(255,120,120,0.7);"></span><span class="hl-chip" style="width:26%;background:rgba(159,193,255,0.7);"></span><span class="hl-chip" style="width:10%;background:rgba(255,214,120,0.7);"></span></div>
+              <div class="hl-row" style="margin-left:10%;"><span class="hl-chip" style="width:34%;background:rgba(130,235,210,0.7);"></span></div>
+              <div class="hl-row"><span class="hl-chip" style="width:16%;background:rgba(200,160,255,0.8);"></span><span class="hl-chip" style="width:20%;background:rgba(159,193,255,0.65);"></span></div>
+              <div class="hl-row" style="margin-left:5%;"><span class="hl-chip" style="width:28%;background:rgba(255,214,120,0.7);"></span><span class="hl-chip" style="width:14%;background:rgba(255,120,120,0.7);"></span></div>
+              <div class="hl-row" style="margin-left:10%;"><span class="hl-chip" style="width:22%;background:rgba(130,235,210,0.75);"></span><span class="hl-chip" style="width:18%;background:rgba(159,193,255,0.6);"></span></div>
+              <div class="hl-row"><span class="hl-chip" style="width:14%;background:rgba(255,120,120,0.8);"></span><span class="hl-chip" style="width:24%;background:rgba(200,160,255,0.7);"></span></div>
             </div>
           </div>
         </div>
@@ -1158,8 +1125,18 @@
   // mobile menu
   const burger = document.getElementById('burgerBtn');
   const mobileMenu = document.getElementById('mobileMenu');
-  burger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
-  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+  function setMenuOpen(open){
+    mobileMenu.classList.toggle('open', open);
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+  }
+  burger.addEventListener('click', () => setMenuOpen(!mobileMenu.classList.contains('open')));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenuOpen(false)));
+  document.addEventListener('click', (e) => {
+    if (mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && !burger.contains(e.target)){
+      setMenuOpen(false);
+    }
+  });
 
   // scroll reveal — bidirectional: fades in on the way down, fades back out
   // as it exits either edge of the viewport, then fades in again on the way back up.
@@ -1182,15 +1159,13 @@
     });
   });
 
-  // hero ring + laptop subtle parallax on mouse move
+  // hero ring parallax on mouse move
   const heroRing = document.getElementById('heroRing');
-  const laptop = document.querySelector('.laptop');
   if (window.matchMedia('(pointer:fine)').matches && !reduceMotion) {
     document.querySelector('.hero').addEventListener('mousemove', (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 18;
       const y = (e.clientY / window.innerHeight - 0.5) * 18;
       if (heroRing) heroRing.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-      if (laptop) laptop.style.setProperty('--tiltX', (-y * 0.6) + 'deg');
     });
   }
 
