@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lux Web Design — Луксузни веб страни што го подигнуваат вашиот бизнис</title>
+<meta name="description" content="Lux Web Design изработува модерни, брзи и високо-конверзиони веб страници за ресторани, хотели, салони, ординации, продавници и премиум брендови.">
+<link rel="icon" href="logo-mark.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#060a14;
+    --bg-soft:#080d1a;
+    --surface:#0d1526;
+    --surface-2:#121d33;
+    --border:rgba(159,193,255,0.14);
+    --border-strong:rgba(159,193,255,0.32);
+    --blue:#3e6fe7;
+    --blue-deep:#16264a;
+    --blue-pale:#9fc1ff;
+    --text:#edf1f9;
+    --muted:#8592ad;
+    --muted-2:#5c6786;
+    --radius:18px;
+    --serif:'Cormorant Garamond', serif;
+    --sans:'Manrope', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  ::selection{background:var(--blue);color:#fff;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:
+      radial-gradient(ellipse 900px 600px at 15% -5%, rgba(62,111,231,0.16), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(159,193,255,0.08), transparent 60%);
+  }
+
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+
+  .wrap{max-width:1240px;margin:0 auto;padding:0 32px;position:relative;z-index:1;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--blue-pale);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:22px;height:1px;
+    background:var(--blue-pale);
+    display:inline-block;
+  }
+
+  h1,h2,h3{font-family:var(--serif);font-weight:500;letter-spacing:0.01em;}
+
+  /* ============ WOVEN RING — brand signature motif ============ */
+  .ring{overflow:visible;}
+  .ring circle{
+    fill:none;
+    stroke:url(#ringGrad);
+    vector-effect:non-scaling-stroke;
+  }
+  .ring.spin{animation:spin 90s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* ============ NAV ============ */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(6,10,20,0.72);
+    backdrop-filter:blur(16px) saturate(140%);
+    -webkit-backdrop-filter:blur(16px) saturate(140%);
+    border-bottom:1px solid transparent;
+    transition:border-color .4s ease, background .4s ease;
+  }
+  header.scrolled{border-bottom-color:var(--border);}
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 0;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand img{height:34px;width:auto;}
+  .brand-word{font-family:var(--serif);font-size:19px;letter-spacing:0.14em;}
+  .brand-word b{color:var(--blue-pale);font-weight:500;}
+
+  .nav-links{display:flex;align-items:center;gap:34px;}
+  .nav-links a{
+    font-size:14.5px;color:var(--muted);
+    position:relative;transition:color .3s ease;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:-6px;width:0;height:1px;
+    background:var(--blue-pale);transition:width .3s ease;
+  }
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a:hover::after{width:100%;}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 26px;border-radius:999px;
+    font-size:14px;font-weight:600;letter-spacing:0.02em;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, background .3s ease, border-color .3s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--blue),#5a8bff);
+    color:#fff;
+    box-shadow:0 8px 24px -8px rgba(62,111,231,0.65);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px -8px rgba(62,111,231,0.8);}
+  .btn-ghost{
+    border:1px solid var(--border-strong);color:var(--text);
+    background:rgba(255,255,255,0.02);
+  }
+  .btn-ghost:hover{border-color:var(--blue-pale);background:rgba(159,193,255,0.06);transform:translateY(-2px);}
+  .nav-cta{display:none;}
+  @media(min-width:900px){.nav-cta{display:inline-flex;}}
+
+  .burger{display:flex;width:22px;height:16px;flex-direction:column;justify-content:space-between;}
+  .burger span{height:1.5px;background:var(--text);width:100%;}
+  .mobile-toggle{display:block;}
+  @media(min-width:900px){.mobile-toggle{display:none;}.nav-links{display:flex;}}
+  @media(max-width:899px){.nav-links{display:none;}}
+
+  .mobile-menu{
+    position:fixed;inset:0;top:68px;z-index:99;
+    background:rgba(6,10,20,0.98);backdrop-filter:blur(20px);
+    display:flex;flex-direction:column;gap:28px;
+    padding:48px 32px;
+    transform:translateX(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .mobile-menu.open{transform:translateX(0);}
+  .mobile-menu a{font-family:var(--serif);font-size:28px;color:var(--text);}
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;align-items:center;
+    padding:140px 0 100px;
+    overflow:hidden;
+  }
+  .hero-ring-wrap{
+    position:absolute;
+    top:50%;left:50%;
+    width:min(1000px, 130vw);height:min(1000px,130vw);
+    transform:translate(-50%,-50%);
+    z-index:0;
+    opacity:0.9;
+  }
+  .hero-content{
+    position:relative;z-index:2;
+    max-width:880px;margin:0 auto;
+    text-align:center;
+  }
+  .hero-content .eyebrow{justify-content:center;margin-bottom:26px;}
+  .hero h1{
+    font-size:clamp(38px,6.4vw,74px);
+    line-height:1.08;
+    margin-bottom:24px;
+  }
+  .hero h1 em{
+    font-style:italic;color:var(--blue-pale);
+  }
+  .hero p{
+    font-size:18px;color:var(--muted);
+    max-width:560px;margin:0 auto 40px;
+  }
+  .hero-actions{
+    display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+  }
+  .scroll-cue{
+    position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    z-index:2;
+    font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--muted-2);
+    text-transform:uppercase;
+  }
+  .scroll-cue .line{width:1px;height:34px;background:linear-gradient(var(--blue-pale),transparent);animation:pulse 2.2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+  /* ============ REVEAL ============ */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  .reveal-delay-1{transition-delay:.08s;}
+  .reveal-delay-2{transition-delay:.16s;}
+  .reveal-delay-3{transition-delay:.24s;}
+
+  section{position:relative;padding:120px 0;}
+  @media(max-width:640px){section{padding:80px 0;}}
+
+  .section-head{max-width:640px;margin:0 auto 64px;text-align:center;}
+  .section-head .eyebrow{justify-content:center;margin-bottom:18px;}
+  .section-head h2{font-size:clamp(30px,4vw,46px);margin-bottom:16px;}
+  .section-head p{color:var(--muted);font-size:16.5px;}
+
+  /* ============ SERVICES ============ */
+  .services-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+  }
+  @media(max-width:980px){.services-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.services-grid{grid-template-columns:1fr;}}
+
+  .service-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:32px 26px;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1), border-color .4s ease, background .4s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .service-card::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(180px 140px at var(--mx,50%) var(--my,0%), rgba(62,111,231,0.16), transparent 70%);
+    opacity:0;transition:opacity .4s ease;
+    pointer-events:none;
+  }
+  .service-card:hover::before{opacity:1;}
+  .service-card:hover{
+    transform:translateY(-6px);
+    border-color:var(--border-strong);
+    background:var(--surface-2);
+  }
+  .service-icon{
+    width:44px;height:44px;margin-bottom:22px;
+    color:var(--blue-pale);
+  }
+  .service-card h3{font-size:20px;margin-bottom:10px;font-weight:500;}
+  .service-card p{font-size:14.5px;color:var(--muted);}
+
+  /* ============ WHY / STATS ============ */
+  .why{background:var(--bg-soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .stats-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+    margin-bottom:64px;
+  }
+  @media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
+  .stat{
+    padding:44px 20px;text-align:center;
+    border-right:1px solid var(--border);
+    background:var(--surface);
+  }
+  .stat:last-child{border-right:none;}
+  @media(max-width:760px){.stat:nth-child(2n){border-right:none;}.stat{border-bottom:1px solid var(--border);}}
+  .stat .num{font-family:var(--serif);font-size:44px;color:var(--blue-pale);}
+  .stat .label{font-size:13.5px;color:var(--muted);margin-top:6px;}
+
+  .why-cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  @media(max-width:760px){.why-cards{grid-template-columns:1fr;}}
+  .why-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:36px;
+  }
+  .why-card h3{font-size:22px;margin-bottom:12px;display:flex;align-items:center;gap:12px;}
+  .why-card p{color:var(--muted);font-size:15px;}
+  .mini-ring{flex-shrink:0;}
+
+  /* ============ PROCESS ============ */
+  .process-list{max-width:760px;margin:0 auto;position:relative;}
+  .process-list::before{
+    content:'';position:absolute;left:27px;top:14px;bottom:14px;width:1px;
+    background:linear-gradient(var(--border-strong),var(--border) 80%,transparent);
+  }
+  @media(max-width:640px){.process-list::before{left:21px;}}
+  .process-step{
+    display:flex;gap:28px;padding:26px 0;position:relative;
+  }
+  @media(max-width:640px){.process-step{gap:18px;}}
+  .process-node{
+    flex-shrink:0;width:56px;height:56px;position:relative;z-index:1;
+    background:var(--bg);
+  }
+  .process-node svg{position:absolute;inset:0;width:100%;height:100%;}
+  @media(max-width:640px){.process-node{width:44px;height:44px;}}
+  .process-node span{
+    font-family:var(--serif);font-size:18px;color:var(--blue-pale);
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;
+  }
+  @media(max-width:640px){.process-node span{font-size:14px;}}
+  .process-body h3{font-size:22px;margin-bottom:6px;font-weight:500;}
+  .process-body p{color:var(--muted);font-size:15px;max-width:480px;}
+
+  /* ============ PORTFOLIO ============ */
+  .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media(max-width:900px){.portfolio-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.portfolio-grid{grid-template-columns:1fr;}}
+  .portfolio-card{
+    border-radius:var(--radius);overflow:hidden;
+    border:1px solid var(--border);
+    background:var(--surface);
+    aspect-ratio:4/3;
+    position:relative;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1), border-color .4s ease;
+  }
+  .portfolio-card:hover{transform:translateY(-6px);border-color:var(--border-strong);}
+  .pf-bg{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(120% 100% at 20% 0%, rgba(62,111,231,0.35), transparent 60%),
+      linear-gradient(160deg, var(--blue-deep), #060a14 75%);
+  }
+  .pf-tag{position:relative;z-index:1;padding:22px;}
+  .pf-tag .eyebrow{margin-bottom:8px;}
+  .pf-tag h3{font-size:21px;font-weight:500;}
+  .pf-note{
+    text-align:center;color:var(--muted-2);font-size:14px;margin-top:36px;
+  }
+
+  /* ============ TESTIMONIALS ============ */
+  .testi-track{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+  }
+  @media(max-width:900px){.testi-track{grid-template-columns:1fr;max-width:520px;margin:0 auto;}}
+  .testi-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:32px;display:flex;flex-direction:column;gap:22px;
+    transition:transform .4s ease, border-color .4s ease;
+  }
+  .testi-card:hover{transform:translateY(-4px);border-color:var(--border-strong);}
+  .testi-quote{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--text);line-height:1.5;}
+  .testi-quote::before{content:'“';color:var(--blue-pale);}
+  .testi-quote::after{content:'”';color:var(--blue-pale);}
+  .testi-person{display:flex;align-items:center;gap:12px;}
+  .testi-avatar{
+    width:42px;height:42px;border-radius:50%;
+    background:linear-gradient(135deg,var(--blue-deep),var(--blue));
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:15px;color:var(--blue-pale);
+    border:1px solid var(--border-strong);
+  }
+  .testi-person .name{font-size:14.5px;font-weight:600;}
+  .testi-person .role{font-size:12.5px;color:var(--muted);}
+
+  /* ============ PRICING ============ */
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch;}
+  @media(max-width:900px){.pricing-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto;}}
+  .price-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:38px 32px;display:flex;flex-direction:column;
+    transition:transform .4s ease, border-color .4s ease, box-shadow .4s ease;
+  }
+  .price-card:hover{transform:translateY(-6px);}
+  .price-card.featured{
+    border-color:var(--border-strong);
+    background:linear-gradient(180deg, var(--surface-2), var(--surface));
+    box-shadow:0 20px 60px -20px rgba(62,111,231,0.45);
+    position:relative;
+  }
+  .price-card.featured::before{
+    content:'НАЈПОПУЛАРНО';
+    position:absolute;top:-1px;right:24px;
+    transform:translateY(-50%);
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+    background:var(--blue);color:#fff;padding:6px 12px;border-radius:999px;
+  }
+  .price-name{font-family:var(--serif);font-size:24px;margin-bottom:8px;}
+  .price-desc{color:var(--muted);font-size:14px;margin-bottom:24px;min-height:42px;}
+  .price-amount{font-family:var(--serif);font-size:38px;color:var(--blue-pale);margin-bottom:26px;}
+  .price-amount span{font-family:var(--sans);font-size:13px;color:var(--muted);display:block;margin-top:4px;}
+  .price-list{display:flex;flex-direction:column;gap:13px;margin-bottom:32px;flex-grow:1;}
+  .price-list li{display:flex;gap:10px;font-size:14.5px;color:var(--text);align-items:flex-start;}
+  .price-list li svg{flex-shrink:0;margin-top:3px;color:var(--blue-pale);}
+  .price-card .btn{width:100%;}
+
+  /* ============ CONTACT ============ */
+  .contact{
+    background:var(--bg-soft);
+    border-top:1px solid var(--border);
+  }
+  .contact-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;align-items:center;}
+  @media(max-width:900px){.contact-grid{grid-template-columns:1fr;gap:40px;}}
+  .contact-left h2{font-size:clamp(30px,4.2vw,48px);margin-bottom:20px;}
+  .contact-left p{color:var(--muted);font-size:16.5px;margin-bottom:36px;max-width:460px;}
+  .contact-channels{display:flex;flex-direction:column;gap:14px;}
+  .channel{
+    display:flex;align-items:center;gap:14px;
+    padding:16px 20px;border:1px solid var(--border);border-radius:14px;
+    background:var(--surface);
+    transition:border-color .3s ease, transform .3s ease, background .3s ease;
+  }
+  .channel:hover{border-color:var(--border-strong);transform:translateX(6px);background:var(--surface-2);}
+  .channel .ico{
+    width:38px;height:38px;border-radius:10px;
+    background:var(--surface-2);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--blue-pale);flex-shrink:0;
+  }
+  .channel .txt .k{font-size:12px;color:var(--muted);}
+  .channel .txt .v{font-size:15px;font-weight:600;}
+
+  .contact-form{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:32px;display:flex;flex-direction:column;gap:16px;
+  }
+  .field{display:flex;flex-direction:column;gap:8px;}
+  .field label{font-size:12.5px;color:var(--muted);font-family:var(--mono);letter-spacing:.04em;}
+  .field input,.field textarea,.field select{
+    background:var(--bg);border:1px solid var(--border);border-radius:10px;
+    padding:13px 14px;color:var(--text);font-family:var(--sans);font-size:14.5px;
+    transition:border-color .3s ease, box-shadow .3s ease;
+  }
+  .field input:focus,.field textarea:focus,.field select:focus{
+    outline:none;border-color:var(--blue-pale);
+    box-shadow:0 0 0 3px rgba(159,193,255,0.12);
+  }
+  .field textarea{resize:vertical;min-height:100px;}
+  .contact-form .btn{margin-top:6px;}
+  .form-note{font-size:12.5px;color:var(--muted-2);text-align:center;}
+
+  /* ============ FOOTER ============ */
+  footer{padding:64px 0 32px;}
+  .footer-top{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:40px;
+    padding-bottom:48px;border-bottom:1px solid var(--border);margin-bottom:32px;
+    flex-wrap:wrap;
+  }
+  .footer-brand{display:flex;align-items:center;gap:12px;}
+  .footer-brand img{height:38px;}
+  .footer-tagline{color:var(--muted);font-size:14px;margin-top:10px;max-width:280px;}
+  .footer-cols{display:flex;gap:64px;flex-wrap:wrap;}
+  .footer-col h4{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted-2);text-transform:uppercase;margin-bottom:16px;}
+  .footer-col a{display:block;font-size:14.5px;color:var(--muted);margin-bottom:10px;transition:color .3s ease;}
+  .footer-col a:hover{color:var(--blue-pale);}
+  .footer-bottom{
+    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+    color:var(--muted-2);font-size:13px;
+  }
+  .footer-social{display:flex;gap:14px;}
+  .footer-social a{
+    width:36px;height:36px;border-radius:50%;border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;color:var(--muted);
+    transition:all .3s ease;
+  }
+  .footer-social a:hover{color:var(--blue-pale);border-color:var(--border-strong);transform:translateY(-3px);}
+
+  @media(prefers-reduced-motion: reduce){
+    .ring.spin{animation:none;}
+    .reveal{transition:none;opacity:1;transform:none;}
+    .scroll-cue .line{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- shared SVG defs -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9fc1ff"/>
+      <stop offset="45%" stop-color="#3e6fe7"/>
+      <stop offset="100%" stop-color="#16264a"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <nav>
+      <a href="#home" class="brand">
+        <img src="logo-mark.png" alt="Lux Web Design">
+        <span class="brand-word">LUX WEB <b>DESIGN</b></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#home">Почетна</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#process">Процес</a></li>
+        <li><a href="#portfolio">Портфолио</a></li>
+        <li><a href="#pricing">Цени</a></li>
+        <li><a href="#contact">Контакт</a></li>
+      </ul>
+      <a href="#contact" class="btn btn-primary nav-cta">Започни проект</a>
+      <button class="burger mobile-toggle" id="burgerBtn" aria-label="Мени"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home">Почетна</a>
+  <a href="#services">Услуги</a>
+  <a href="#process">Процес</a>
+  <a href="#portfolio">Портфолио</a>
+  <a href="#pricing">Цени</a>
+  <a href="#contact">Контакт</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero-ring-wrap" id="heroRing">
+    <svg class="ring spin" viewBox="0 0 200 200" width="100%" height="100%">
+      <circle cx="100" cy="100" r="92" stroke-width="0.6" stroke-dasharray="10 6" opacity="0.35"/>
+      <circle cx="100" cy="100" r="86" stroke-width="0.5" stroke-dasharray="4 10" opacity="0.5"/>
+      <circle cx="100" cy="100" r="80" stroke-width="0.8" stroke-dasharray="16 4" opacity="0.6"/>
+      <circle cx="100" cy="100" r="74" stroke-width="0.4" stroke-dasharray="2 8" opacity="0.4"/>
+      <circle cx="100" cy="100" r="68" stroke-width="0.7" stroke-dasharray="12 8" opacity="0.55"/>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="hero-content">
+      <span class="eyebrow reveal in">Lux Web Design — Дигитално студио</span>
+      <h1 class="reveal in reveal-delay-1">Создаваме веб страни кои го подигнуваат <em>вашиот бизнис</em> на повисоко ниво</h1>
+      <p class="reveal in reveal-delay-2">Модерен дизајн. Брзина. Резултати. Изработуваме веб страници кои ги претвораат посетителите во клиенти — за ресторани, салони, ординации, продавници и премиум брендови.</p>
+      <div class="hero-actions reveal in reveal-delay-3">
+        <a href="#contact" class="btn btn-primary">Започни проект</a>
+        <a href="#portfolio" class="btn btn-ghost">Погледни портфолио</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Скролувај</span><span class="line"></span></div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Што правиме</span>
+      <h2>Услуги за секој вид бизнис</h2>
+      <p>Секоја веб страница ја градиме според целите на клиентот — без шаблони, без компромис на квалитет.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="8" width="32" height="22" rx="2.5"/><path d="M4 14h32"/><circle cx="8.5" cy="11" r="0.8" fill="currentColor" stroke="none"/><circle cx="11.5" cy="11" r="0.8" fill="currentColor" stroke="none"/><path d="M14 34h12M20 30v4"/></svg>
+        <h3>Изработка на веб страни</h3>
+        <p>Модерни, брзи и уникатни страници, целосно прилагодени на идентитетот на вашиот бренд.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-1">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="6" y="5" width="28" height="30" rx="3"/><path d="M6 30h28M14 12h12M14 18h12M14 24h6"/></svg>
+        <h3>Бизнис страни</h3>
+        <p>Претставете го вашиот бизнис професионално, со стил и јасна порака кон клиентите.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 18c0-6 5.4-11 12-11s12 5 12 11"/><path d="M6 18h28l-2 14H8L6 18Z"/><path d="M16 24h8"/></svg>
+        <h3>Ресторани и QR мени</h3>
+        <p>Дигитално мени и онлајн нарачки — модерно искуство за вашите гости.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-3">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="17" cy="13" r="3.2"/><path d="M8 30c0-5.5 4-9 9-9s9 3.5 9 9"/><path d="M27 8l3 3-3 3M31 20l3 3-3 3"/></svg>
+        <h3>Онлајн продавници</h3>
+        <p>E-commerce решенија што продаваат 24 часа, со едноставно управување.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="7" y="6" width="26" height="26" rx="3"/><path d="M14 20h12M20 14v12"/></svg>
+        <h3>Систем за резервации</h3>
+        <p>Онлајн закажување термини за салони, клиники и ординации, достапно 24/7.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-1">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="18" cy="18" r="10"/><path d="M25.5 25.5L33 33"/></svg>
+        <h3>SEO оптимизација</h3>
+        <p>Подобра позиција на Google и повеќе органски посетители за вашиот бизнис.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="6" y="9" width="28" height="18" rx="2.5"/><path d="M14 33h12M20 27v6"/><circle cx="20" cy="18" r="4"/></svg>
+        <h3>UI/UX дизајн</h3>
+        <p>Интуитивно и естетско корисничко искуство, изградено околу вашите клиенти.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-3">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M20 6l3.6 7.6L32 15l-6 6 1.5 8.4L20 25.6 12.5 29.4 14 21l-6-6 8.4-1.4L20 6Z"/></svg>
+        <h3>Одржување и поддршка</h3>
+        <p>Сигурност, редовни ажурирања и техничка поддршка по лансирањето.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY CHOOSE US ============ -->
+<section class="why" id="why">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Зошто Lux Web Design</span>
+      <h2>Посветеност во секој детал</h2>
+    </div>
+
+    <div class="stats-grid reveal">
+      <div class="stat"><div class="num">50+</div><div class="label">Изработени проекти</div></div>
+      <div class="stat"><div class="num">100%</div><div class="label">Responsive дизајн</div></div>
+      <div class="stat"><div class="num">99%</div><div class="label">Задоволни клиенти</div></div>
+      <div class="stat"><div class="num">24/7</div><div class="label">Достапна поддршка</div></div>
+    </div>
+
+    <div class="why-cards">
+      <div class="why-card reveal">
+        <h3>
+          <svg class="mini-ring" width="28" height="28" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="none" stroke="url(#ringGrad)" stroke-width="1.2" stroke-dasharray="8 5"/></svg>
+          Посветеност и максимум
+        </h3>
+        <p>Во секој проект вложувам максимум од своето време, внимание и креативност — за да добиете веб страница која носи вредност и резултати.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <h3>
+          <svg class="mini-ring" width="28" height="28" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="none" stroke="url(#ringGrad)" stroke-width="1.2" stroke-dasharray="8 5"/></svg>
+          Вашиот успех — моја мисија
+        </h3>
+        <p>Не правам само веб страници. Создавам дигитални решенија кои го поддржуваат растот и успехот на вашиот бизнис.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section id="process">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Како работиме</span>
+      <h2>Процес од идеја до лансирање</h2>
+      <p>Јасен и транспарентен процес во седум чекори — секогаш знаете каде сте.</p>
+    </div>
+
+    <div class="process-list">
+      <div class="process-step reveal">
+        <div class="process-node"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="none" stroke="url(#ringGrad)" stroke-width="1"/></svg><span style="position:absolute;">01</span></div>
+        <div class="process-body"><h3>Откривање</h3><p>Ги разбираме вашиот бизнис, целите и вашите клиенти пред да почнеме со дизајн.</p></div>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-node"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="none" stroke="url(#ringGrad)" stroke-width="1"/></svg><span style="position:absolute;">02</span></div>
+        <div class="process-body"><h3>Стратегија</h3><p>Планираме структура и функционалности кои носат реални резултати.</p></div>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-node"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="none" stroke="url(#ringGrad)" stroke-width="1"/></svg><span style="position:absolute;">03</span></div>
+        <div class="process-body"><h3>Дизајн</h3><p>Создаваме визуелен идентитет целосно усогласен со вашиот бренд.</p></div>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-node"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="none" stroke="url(#ringGrad)" stroke-width="1"/></svg><span style="position:absolute;">04</span></div>
+        <div class="process-body"><h3>Развој</h3><p>Ја градиме страницата со чист, брз и оптимизиран код.</p></div>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-node"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="none" stroke="url(#ringGrad)" stroke-width="1"/></svg><span style="position:absolute;">05</span></div>
+        <div class="process-body"><h3>Тестирање</h3><p>Проверуваме брзина, респонзивност и функционалност на сите уреди.</p></div>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-node"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="none" stroke="url(#ringGrad)" stroke-width="1"/></svg><span style="position:absolute;">06</span></div>
+        <div class="process-body"><h3>Лансирање</h3><p>Вашата нова веб страница оди во живо, подготвена за клиенти.</p></div>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-node"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="none" stroke="url(#ringGrad)" stroke-width="1"/></svg><span style="position:absolute;">07</span></div>
+        <div class="process-body"><h3>Раст</h3><p>Ги следиме перформансите и предлагаме подобрувања за долгорочен успех.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PORTFOLIO ============ -->
+<section id="portfolio">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Портфолио</span>
+      <h2>Проекти во подготовка</h2>
+      <p>Секој проект ќе биде претставен тука откако ќе биде лансиран — засега, еве примери за типот на работа.</p>
+    </div>
+    <div class="portfolio-grid">
+      <div class="portfolio-card reveal"><div class="pf-bg"></div><div class="pf-tag"><span class="eyebrow">Угостителство</span><h3>Ресторан & QR мени</h3></div></div>
+      <div class="portfolio-card reveal reveal-delay-1"><div class="pf-bg"></div><div class="pf-tag"><span class="eyebrow">Убавина</span><h3>Салон за убавина</h3></div></div>
+      <div class="portfolio-card reveal reveal-delay-2"><div class="pf-bg"></div><div class="pf-tag"><span class="eyebrow">Е-трговија</span><h3>Онлајн продавница</h3></div></div>
+    </div>
+    <p class="pf-note reveal">Сакате вашиот бизнис да биде следен? <a href="#contact" style="color:var(--blue-pale);">Контактирајте ме →</a></p>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section id="testimonials" style="background:var(--bg-soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Искуства</span>
+      <h2>Што велат клиентите</h2>
+    </div>
+    <div class="testi-track">
+      <div class="testi-card reveal">
+        <p class="testi-quote">Соработката ја одведе нашата продавница на следно ниво. Веб страницата изгледа професионално и веќе гледаме повеќе нарачки.</p>
+        <div class="testi-person"><div class="testi-avatar">МК</div><div class="txt"><div class="name">Марија К.</div><div class="role">Сопственик на бутик</div></div></div>
+      </div>
+      <div class="testi-card reveal reveal-delay-1">
+        <p class="testi-quote">Брз, прецизен и секогаш достапен. Добивме веб страница која навистина ги претставува нашите вредности како ресторан.</p>
+        <div class="testi-person"><div class="testi-avatar">СТ</div><div class="txt"><div class="name">Стефан Т.</div><div class="role">Сопственик на ресторан</div></div></div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <p class="testi-quote">Нашата ординација конечно има веб страница со онлајн закажување. Пациентите се презадоволни од новото искуство.</p>
+        <div class="testi-person"><div class="testi-avatar">АП</div><div class="txt"><div class="name">д-р Ана П.</div><div class="role">Стоматолог</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Цени</span>
+      <h2>Пакети прилагодени на вашиот бизнис</h2>
+      <p>Транспарентни цени без скриени трошоци. Секој пакет може да се прилагоди по потреба.</p>
+    </div>
+    <div class="pricing-grid">
+
+      <div class="price-card reveal">
+        <div class="price-name">Основен</div>
+        <div class="price-desc">За мали бизниси кои сакаат професионално онлајн присуство.</div>
+        <div class="price-amount">од 250€</div>
+        <ul class="price-list">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Дизајн на 1 страница (One-page)</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Целосно responsive</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Основна SEO поставка</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Контакт форма</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost">Побарај понуда</a>
+      </div>
+
+      <div class="price-card featured reveal reveal-delay-1">
+        <div class="price-name">Про</div>
+        <div class="price-desc">За бизниси кои сакаат целосна веб страница со повеќе функции.</div>
+        <div class="price-amount">од 450€</div>
+        <ul class="price-list">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> До 5 страници</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Уникатен дизајн по мерка</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Напредна SEO оптимизација</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Систем за резервации / контакт</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> 1 месец бесплатна поддршка</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary">Побарај понуда</a>
+      </div>
+
+      <div class="price-card reveal reveal-delay-2">
+        <div class="price-name">Премиум</div>
+        <div class="price-desc">За бизниси на кои им треба напредно дигитално решение.</div>
+        <div class="price-amount">по договор</div>
+        <ul class="price-list">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Онлајн продавница / сложени функции</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Целосна брендинг поддршка</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Напредна SEO стратегија</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Приоритетна поддршка 3 месеци</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost">Побарај понуда</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-left reveal">
+        <span class="eyebrow">Контакт</span>
+        <h2>Подготвени сте за следното ниво?</h2>
+        <p>Ајде да ја изградиме вашата нова веб страница. Пополнете ја формата или контактирајте директно — одговарам најчесто во рок од еден работен ден.</p>
+        <div class="contact-channels">
+          <a href="https://instagram.com/luxweb.design" target="_blank" rel="noopener" class="channel">
+            <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div>
+            <div class="txt"><div class="k">Инстаграм</div><div class="v">@luxweb.design</div></div>
+          </a>
+          <a href="https://wa.me/389XXXXXXXX" target="_blank" rel="noopener" class="channel">
+            <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20l1.4-4.2A8 8 0 1112 20a7.9 7.9 0 01-4.1-1.2L4 20Z"/></svg></div>
+            <div class="txt"><div class="k">WhatsApp</div><div class="v">Дојди во разговор</div></div>
+          </a>
+          <a href="mailto:info@luxweb.design" class="channel">
+            <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+            <div class="txt"><div class="k">Емаил</div><div class="v">info@luxweb.design</div></div>
+          </a>
+        </div>
+      </div>
+
+      <form class="contact-form reveal reveal-delay-1" id="contactForm">
+        <div class="field">
+          <label for="cf-name">Име и презиме</label>
+          <input id="cf-name" type="text" placeholder="Вашето име" required>
+        </div>
+        <div class="field">
+          <label for="cf-email">Емаил</label>
+          <input id="cf-email" type="email" placeholder="vas@email.com" required>
+        </div>
+        <div class="field">
+          <label for="cf-type">Вид на бизнис</label>
+          <select id="cf-type">
+            <option>Ресторан / кафуле</option>
+            <option>Салон / убавина</option>
+            <option>Ординација / клиника</option>
+            <option>Продавница / е-трговија</option>
+            <option>Друго</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cf-msg">Порака</label>
+          <textarea id="cf-msg" placeholder="Кажете ми повеќе за вашиот проект..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Испрати порака</button>
+        <p class="form-note">Ќе ви одговорам најчесто во рок од 24 часа.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <img src="logo-full.png" alt="Lux Web Design" style="height:70px;">
+        </div>
+        <p class="footer-tagline">Вашата идеја. Нашата реализација.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Навигација</h4>
+          <a href="#home">Почетна</a>
+          <a href="#services">Услуги</a>
+          <a href="#process">Процес</a>
+          <a href="#pricing">Цени</a>
+        </div>
+        <div class="footer-col">
+          <h4>Контакт</h4>
+          <a href="mailto:info@luxweb.design">info@luxweb.design</a>
+          <a href="https://instagram.com/luxweb.design" target="_blank" rel="noopener">@luxweb.design</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Lux Web Design. Сите права задржани.</span>
+      <div class="footer-social">
+        <a href="https://instagram.com/luxweb.design" target="_blank" rel="noopener" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // header scroll state
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 12);
+  });
+
+  // mobile menu
+  const burger = document.getElementById('burgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // subtle spotlight on service cards
+  document.querySelectorAll('.service-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // hero ring subtle parallax on mouse move
+  const heroRing = document.getElementById('heroRing');
+  if (heroRing && window.matchMedia('(pointer:fine)').matches) {
+    document.querySelector('.hero').addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 18;
+      const y = (e.clientY / window.innerHeight - 0.5) * 18;
+      heroRing.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+    });
+  }
+
+  // contact form (visual only — opens mail client)
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('cf-name').value;
+    const email = document.getElementById('cf-email').value;
+    const type = document.getElementById('cf-type').value;
+    const msg = document.getElementById('cf-msg').value;
+    const body = encodeURIComponent(`Име: ${name}\nЕмаил: ${email}\nВид на бизнис: ${type}\n\nПорака:\n${msg}`);
+    window.location.href = `mailto:info@luxweb.design?subject=Ново барање преку веб страна&body=${body}`;
+  });
+</script>
+
+</body>
+</html>
