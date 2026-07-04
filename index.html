@@ -11,10 +11,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#020305;
-    --bg-soft:#04060a;
-    --surface:#080b13;
-    --surface-2:#0b0f1a;
+    --bg:#0d1220;
+    --bg-soft:#111828;
+    --surface:#161f34;
+    --surface-2:#1a2340;
     --border:rgba(120,150,210,0.10);
     --border-strong:rgba(120,150,210,0.24);
     --blue:#2648a8;
@@ -49,8 +49,19 @@
     z-index:0;
     pointer-events:none;
     background:
-      radial-gradient(ellipse 900px 600px at 15% -5%, rgba(38,72,168,0.10), transparent 60%),
-      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(125,155,219,0.05), transparent 60%);
+      radial-gradient(ellipse 900px 600px at 15% -5%, rgba(38,72,168,0.18), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(125,155,219,0.10), transparent 60%);
+  }
+
+  /* ============ MATRIX CODE-RAIN BACKGROUND ============ */
+  #matrixCanvas{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    opacity:0.5;
   }
 
   img{max-width:100%;display:block;}
@@ -553,6 +564,8 @@
 </head>
 <body>
 
+<canvas id="matrixCanvas" aria-hidden="true"></canvas>
+
 <!-- shared SVG defs -->
 <svg width="0" height="0" style="position:absolute">
   <defs>
@@ -960,6 +973,72 @@
 </footer>
 
 <script>
+  // ============ MATRIX CODE-RAIN BACKGROUND ============
+  (function(){
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const chars = '01アイウエオカキクケコサシスセソABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
+    let fontSize = 16;
+    let columns = 0;
+    let drops = [];
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      fontSize = window.innerWidth < 640 ? 14 : 16;
+      columns = Math.ceil(window.innerWidth / fontSize);
+      drops = new Array(columns).fill(0).map(() => Math.floor(Math.random() * -50));
+    }
+
+    function draw(){
+      // translucent dark wash for the fading-trail effect
+      ctx.fillStyle = 'rgba(13,18,32,0.09)';
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < columns; i++){
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+
+        // brighter leading character, softer trail
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.fillText(char, x, y);
+
+        if (y > window.innerHeight && Math.random() > 0.975){
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    let rafId;
+    function loop(){
+      draw();
+      rafId = requestAnimationFrame(loop);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    if (!reduceMotion){
+      loop();
+    } else {
+      // static single frame for reduced-motion users
+      ctx.fillStyle = 'rgba(13,18,32,1)';
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+  })();
+
   // header scroll state
   const header = document.getElementById('siteHeader');
   window.addEventListener('scroll', () => {
