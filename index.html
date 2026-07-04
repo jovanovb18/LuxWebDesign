@@ -261,6 +261,61 @@
   @media(prefers-reduced-motion: reduce){
     .laptop{animation:none;transform:rotateX(14deg) rotateY(0deg);}
   }
+
+  /* ---- Background rotating laptop with code (hero backdrop) ---- */
+  .hero-bg-laptop-wrap{
+    position:absolute;
+    top:50%;left:50%;
+    width:min(880px, 115vw);height:min(620px, 82vw);
+    transform:translate(-50%,-50%);
+    z-index:1;
+    opacity:0.32;
+    perspective:2200px;
+    pointer-events:none;
+  }
+  .hero-bg-laptop{
+    position:relative;width:100%;height:100%;
+    transform-style:preserve-3d;
+    animation:bgLaptopSpin 28s linear infinite;
+  }
+  @keyframes bgLaptopSpin{
+    from{transform:rotateX(15deg) rotateY(0deg);}
+    to{transform:rotateX(15deg) rotateY(360deg);}
+  }
+  .hero-bg-laptop .bgl-base{
+    position:absolute;left:50%;top:65%;width:72%;height:44%;
+    margin-left:-36%;
+    transform:rotateX(88deg) translateZ(-100px);
+    background:linear-gradient(160deg,#141a2c,#050710);
+    border:1px solid var(--border-strong);
+    border-radius:10px;
+    box-shadow:0 0 60px rgba(0,0,0,0.5) inset;
+  }
+  .hero-bg-laptop .bgl-screen{
+    position:absolute;left:50%;top:0;width:66%;height:62%;
+    margin-left:-33%;
+    transform-origin:bottom center;
+    transform:rotateX(-6deg);
+    background:linear-gradient(160deg,#0f1626,#040609);
+    border:1px solid var(--border-strong);
+    border-radius:16px 16px 6px 6px;
+    padding:2.4%;
+    box-shadow:0 60px 110px -30px rgba(0,0,0,0.7);
+  }
+  .hero-bg-laptop .bgl-display{
+    width:100%;height:100%;border-radius:9px;overflow:hidden;position:relative;
+    background:linear-gradient(150deg,var(--blue-deep),#050710 75%);
+    border:1px solid rgba(125,155,219,0.14);
+    padding:5% 6%;
+    display:flex;flex-direction:column;justify-content:center;gap:9px;
+  }
+  .bgl-line{height:7px;border-radius:3px;}
+  @media(max-width:640px){
+    .hero-bg-laptop-wrap{opacity:0.22;}
+  }
+  @media(prefers-reduced-motion: reduce){
+    .hero-bg-laptop{animation:none;transform:rotateX(15deg) rotateY(-25deg);}
+  }
   .hero h1{
     font-size:clamp(38px,6.4vw,74px);
     line-height:1.08;
@@ -416,6 +471,12 @@
     position:absolute;top:16px;right:16px;z-index:2;
     font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
     color:#8de0b0;background:rgba(30,60,45,0.55);border:1px solid rgba(141,224,176,0.3);
+    padding:5px 10px;border-radius:999px;
+  }
+  .pf-progress{
+    position:absolute;top:16px;right:16px;z-index:2;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+    color:#f0c987;background:rgba(70,55,20,0.55);border:1px solid rgba(240,201,135,0.3);
     padding:5px 10px;border-radius:999px;
   }
   .pf-link{
@@ -618,6 +679,29 @@
       <circle cx="100" cy="100" r="68" stroke-width="0.7" stroke-dasharray="12 8" opacity="0.55"/>
     </svg>
   </div>
+
+  <div class="hero-bg-laptop-wrap" aria-hidden="true">
+    <div class="hero-bg-laptop">
+      <div class="bgl-base"></div>
+      <div class="bgl-screen">
+        <div class="bgl-display">
+          <div class="bgl-line" style="width:34%;background:rgba(125,155,219,0.55);"></div>
+          <div class="bgl-line" style="width:58%;margin-left:16px;background:rgba(159,193,255,0.35);"></div>
+          <div class="bgl-line" style="width:46%;margin-left:16px;background:rgba(180,142,255,0.4);"></div>
+          <div class="bgl-line" style="width:64%;margin-left:32px;background:rgba(95,216,196,0.35);"></div>
+          <div class="bgl-line" style="width:40%;margin-left:32px;background:rgba(125,155,219,0.3);"></div>
+          <div class="bgl-line" style="width:52%;margin-left:16px;background:rgba(159,193,255,0.35);"></div>
+          <div class="bgl-line" style="width:28%;background:rgba(125,155,219,0.55);"></div>
+          <div class="bgl-line" style="width:60%;margin-left:16px;background:rgba(180,142,255,0.35);"></div>
+          <div class="bgl-line" style="width:44%;margin-left:32px;background:rgba(95,216,196,0.4);"></div>
+          <div class="bgl-line" style="width:36%;margin-left:32px;background:rgba(125,155,219,0.3);"></div>
+          <div class="bgl-line" style="width:50%;margin-left:16px;background:rgba(159,193,255,0.35);"></div>
+          <div class="bgl-line" style="width:30%;background:rgba(125,155,219,0.55);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="wrap">
     <div class="hero-content">
       <div class="laptop-scene" aria-hidden="true">
@@ -799,7 +883,11 @@
         <div class="pf-live">Завршен проект — во живо</div>
         <div class="pf-tag"><span class="eyebrow">Цвеќиња &amp; Балони</span><h3>Bloom &amp; Balloons</h3><span class="pf-link">Посети ја страницата ↗</span></div>
       </a>
-      <div class="portfolio-card reveal reveal-delay-1"><div class="pf-bg"></div><div class="pf-tag"><span class="eyebrow">Угостителство</span><h3>Ресторан & QR мени</h3></div></div>
+      <a href="https://smart-menu-livid.vercel.app/" target="_blank" rel="noopener" class="portfolio-card reveal reveal-delay-1" style="cursor:pointer;">
+        <div class="pf-bg"></div>
+        <div class="pf-progress">Проект во изработка</div>
+        <div class="pf-tag"><span class="eyebrow">Угостителство</span><h3>Ресторан & QR мени</h3><span class="pf-link">Погледни демо ↗</span></div>
+      </a>
       <div class="portfolio-card reveal reveal-delay-2"><div class="pf-bg"></div><div class="pf-tag"><span class="eyebrow">Убавина</span><h3>Салон за убавина</h3></div></div>
     </div>
     <p class="pf-note reveal">Сакате вашиот бизнис да биде следен? <a href="#contact" style="color:var(--blue-pale);">Контактирајте ме →</a></p>
@@ -979,7 +1067,7 @@
     const ctx = canvas.getContext('2d');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const chars = '01アイウエオカキクケコサシスセソABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
+    const chars = 'АБВГДЃЕЖЗЅИЈКЛЉМНЊОПРСТЌУФХЦЧЏШABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
     let fontSize = 16;
     let columns = 0;
     let drops = [];
@@ -994,11 +1082,23 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       fontSize = window.innerWidth < 640 ? 14 : 16;
-      columns = Math.ceil(window.innerWidth / fontSize);
-      drops = new Array(columns).fill(0).map(() => Math.floor(Math.random() * -50));
+      const newColumns = Math.ceil(window.innerWidth / fontSize);
+
+      if (!drops.length){
+        // first run — start everything above the screen
+        drops = new Array(newColumns).fill(0).map(() => Math.floor(Math.random() * -50));
+      } else if (newColumns > columns){
+        // window/zoom grew — keep existing columns falling, add new ones above the screen
+        const extra = new Array(newColumns - columns).fill(0).map(() => Math.floor(Math.random() * -50));
+        drops = drops.concat(extra);
+      } else if (newColumns < columns){
+        // window/zoom shrank — just trim, keep the rest exactly where they were
+        drops = drops.slice(0, newColumns);
+      }
+      columns = newColumns;
     }
 
-    function draw(){
+    function draw(advance){
       // translucent dark wash for the fading-trail effect
       ctx.fillStyle = 'rgba(13,18,32,0.09)';
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
@@ -1014,21 +1114,31 @@
         ctx.fillStyle = 'rgba(255,255,255,0.9)';
         ctx.fillText(char, x, y);
 
-        if (y > window.innerHeight && Math.random() > 0.975){
-          drops[i] = 0;
+        if (advance){
+          if (y > window.innerHeight && Math.random() > 0.975){
+            drops[i] = 0;
+          }
+          drops[i]++;
         }
-        drops[i]++;
       }
     }
 
     let rafId;
+    let frameCount = 0;
+    const speedDivider = 3; // higher = slower fall
+
     function loop(){
-      draw();
+      frameCount++;
+      draw(frameCount % speedDivider === 0);
       rafId = requestAnimationFrame(loop);
     }
 
     resize();
-    window.addEventListener('resize', resize);
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 80);
+    });
 
     if (!reduceMotion){
       loop();
