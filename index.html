@@ -11,18 +11,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#060a14;
-    --bg-soft:#080d1a;
-    --surface:#0d1526;
-    --surface-2:#121d33;
-    --border:rgba(159,193,255,0.14);
-    --border-strong:rgba(159,193,255,0.32);
-    --blue:#3e6fe7;
-    --blue-deep:#16264a;
-    --blue-pale:#9fc1ff;
-    --text:#edf1f9;
-    --muted:#8592ad;
-    --muted-2:#5c6786;
+    --bg:#020305;
+    --bg-soft:#04060a;
+    --surface:#080b13;
+    --surface-2:#0b0f1a;
+    --border:rgba(120,150,210,0.10);
+    --border-strong:rgba(120,150,210,0.24);
+    --blue:#2648a8;
+    --blue-deep:#0a1226;
+    --blue-pale:#7d9bdb;
+    --text:#dde2ee;
+    --muted:#6b7690;
+    --muted-2:#414a63;
     --radius:18px;
     --serif:'Cormorant Garamond', serif;
     --sans:'Manrope', sans-serif;
@@ -49,8 +49,8 @@
     z-index:0;
     pointer-events:none;
     background:
-      radial-gradient(ellipse 900px 600px at 15% -5%, rgba(62,111,231,0.16), transparent 60%),
-      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(159,193,255,0.08), transparent 60%);
+      radial-gradient(ellipse 900px 600px at 15% -5%, rgba(38,72,168,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(125,155,219,0.05), transparent 60%);
   }
 
   img{max-width:100%;display:block;}
@@ -129,11 +129,11 @@
     white-space:nowrap;
   }
   .btn-primary{
-    background:linear-gradient(135deg,var(--blue),#5a8bff);
+    background:linear-gradient(135deg,var(--blue),#3a5bc0);
     color:#fff;
-    box-shadow:0 8px 24px -8px rgba(62,111,231,0.65);
+    box-shadow:0 8px 24px -8px rgba(38,72,168,0.55);
   }
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px -8px rgba(62,111,231,0.8);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px -8px rgba(38,72,168,0.7);}
   .btn-ghost{
     border:1px solid var(--border-strong);color:var(--text);
     background:rgba(255,255,255,0.02);
@@ -178,8 +178,78 @@
     position:relative;z-index:2;
     max-width:880px;margin:0 auto;
     text-align:center;
+    will-change:transform, opacity;
   }
   .hero-content .eyebrow{justify-content:center;margin-bottom:26px;}
+
+  /* ---- 3D laptop ---- */
+  .laptop-scene{
+    width:280px;height:210px;margin:0 auto 8px;
+    perspective:1400px;
+    position:relative;z-index:2;
+  }
+  .laptop{
+    position:relative;width:100%;height:100%;
+    transform-style:preserve-3d;
+    animation:laptopFloat 6.5s ease-in-out infinite, laptopSpin 20s linear infinite;
+  }
+  @keyframes laptopFloat{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-14px);}
+  }
+  @keyframes laptopSpin{
+    from{transform:rotateX(calc(14deg + var(--tiltX,0deg))) rotateY(-22deg);}
+    50%{transform:rotateX(calc(14deg + var(--tiltX,0deg))) rotateY(22deg);}
+    to{transform:rotateX(calc(14deg + var(--tiltX,0deg))) rotateY(-22deg);}
+  }
+  .laptop-base{
+    position:absolute;left:50%;top:64%;width:236px;height:150px;
+    margin-left:-118px;
+    transform:rotateX(88deg) translateZ(-72px);
+    background:linear-gradient(160deg,#141a2c,#050710);
+    border:1px solid var(--border-strong);
+    border-radius:8px;
+    box-shadow:0 0 40px rgba(0,0,0,0.5) inset;
+  }
+  .laptop-base::after{
+    content:'';position:absolute;left:50%;top:10px;transform:translateX(-50%);
+    width:56px;height:5px;border-radius:3px;background:rgba(125,155,219,0.14);
+  }
+  .laptop-screen{
+    position:absolute;left:50%;top:0;width:216px;height:148px;
+    margin-left:-108px;
+    transform-origin:bottom center;
+    transform:rotateX(-6deg);
+    background:linear-gradient(160deg,#0f1626,#040609);
+    border:1px solid var(--border-strong);
+    border-radius:10px 10px 5px 5px;
+    padding:9px;
+    box-shadow:0 40px 70px -25px rgba(0,0,0,0.65);
+  }
+  .laptop-display{
+    width:100%;height:100%;border-radius:5px;overflow:hidden;position:relative;
+    background:linear-gradient(150deg,var(--blue-deep),#050710 75%);
+    border:1px solid rgba(125,155,219,0.14);
+  }
+  .laptop-display .lp-nav{position:absolute;top:0;left:0;right:0;height:16px;background:rgba(125,155,219,0.08);display:flex;align-items:center;gap:4px;padding:0 8px;}
+  .laptop-display .lp-nav span{width:4px;height:4px;border-radius:50%;background:rgba(125,155,219,0.4);}
+  .laptop-display .lp-hero{position:absolute;top:28px;left:10px;right:10px;height:8px;border-radius:3px;background:rgba(125,155,219,0.35);}
+  .laptop-display .lp-line{position:absolute;left:10px;height:4px;border-radius:2px;background:rgba(125,155,219,0.18);}
+  .laptop-display .lp-block{position:absolute;border-radius:4px;background:rgba(125,155,219,0.12);border:1px solid rgba(125,155,219,0.16);}
+  .laptop-glow{
+    position:absolute;left:50%;bottom:10px;width:200px;height:40px;
+    transform:translateX(-50%);
+    background:radial-gradient(ellipse, rgba(38,72,168,0.35), transparent 70%);
+    filter:blur(4px);z-index:1;
+  }
+  @media(max-width:560px){
+    .laptop-scene{width:220px;height:170px;}
+    .laptop-base{width:190px;height:120px;margin-left:-95px;}
+    .laptop-screen{width:172px;height:118px;margin-left:-86px;}
+  }
+  @media(prefers-reduced-motion: reduce){
+    .laptop{animation:none;transform:rotateX(14deg) rotateY(0deg);}
+  }
   .hero h1{
     font-size:clamp(38px,6.4vw,74px);
     line-height:1.08;
@@ -238,7 +308,7 @@
   }
   .service-card::before{
     content:'';position:absolute;inset:0;
-    background:radial-gradient(180px 140px at var(--mx,50%) var(--my,0%), rgba(62,111,231,0.16), transparent 70%);
+    background:radial-gradient(180px 140px at var(--mx,50%) var(--my,0%), rgba(38,72,168,0.12), transparent 70%);
     opacity:0;transition:opacity .4s ease;
     pointer-events:none;
   }
@@ -325,12 +395,24 @@
   .pf-bg{
     position:absolute;inset:0;
     background:
-      radial-gradient(120% 100% at 20% 0%, rgba(62,111,231,0.35), transparent 60%),
+      radial-gradient(120% 100% at 20% 0%, rgba(38,72,168,0.28), transparent 60%),
       linear-gradient(160deg, var(--blue-deep), #060a14 75%);
   }
   .pf-tag{position:relative;z-index:1;padding:22px;}
   .pf-tag .eyebrow{margin-bottom:8px;}
   .pf-tag h3{font-size:21px;font-weight:500;}
+  .pf-live{
+    position:absolute;top:16px;right:16px;z-index:2;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+    color:#8de0b0;background:rgba(30,60,45,0.55);border:1px solid rgba(141,224,176,0.3);
+    padding:5px 10px;border-radius:999px;
+  }
+  .pf-link{
+    display:inline-block;margin-top:10px;font-size:13px;color:var(--blue-pale);
+    opacity:0;transform:translateY(4px);
+    transition:opacity .35s ease, transform .35s ease;
+  }
+  .portfolio-card:hover .pf-link{opacity:1;transform:translateY(0);}
   .pf-note{
     text-align:center;color:var(--muted-2);font-size:14px;margin-top:36px;
   }
@@ -372,7 +454,7 @@
   .price-card.featured{
     border-color:var(--border-strong);
     background:linear-gradient(180deg, var(--surface-2), var(--surface));
-    box-shadow:0 20px 60px -20px rgba(62,111,231,0.45);
+    box-shadow:0 20px 60px -20px rgba(38,72,168,0.35);
     position:relative;
   }
   .price-card.featured::before{
@@ -475,9 +557,9 @@
 <svg width="0" height="0" style="position:absolute">
   <defs>
     <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#9fc1ff"/>
-      <stop offset="45%" stop-color="#3e6fe7"/>
-      <stop offset="100%" stop-color="#16264a"/>
+      <stop offset="0%" stop-color="#7d9bdb"/>
+      <stop offset="45%" stop-color="#2648a8"/>
+      <stop offset="100%" stop-color="#0a1226"/>
     </linearGradient>
   </defs>
 </svg>
@@ -525,6 +607,21 @@
   </div>
   <div class="wrap">
     <div class="hero-content">
+      <div class="laptop-scene" aria-hidden="true">
+        <div class="laptop-glow"></div>
+        <div class="laptop">
+          <div class="laptop-base"></div>
+          <div class="laptop-screen">
+            <div class="laptop-display">
+              <div class="lp-nav"><span></span><span></span><span></span></div>
+              <div class="lp-hero"></div>
+              <div class="lp-line" style="top:44px;width:70%;"></div>
+              <div class="lp-line" style="top:54px;width:45%;"></div>
+              <div class="lp-block" style="left:10px;right:10px;top:66px;bottom:10px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <span class="eyebrow reveal in">Lux Web Design — Дигитално студио</span>
       <h1 class="reveal in reveal-delay-1">Создаваме веб страни кои го подигнуваат <em>вашиот бизнис</em> на повисоко ниво</h1>
       <p class="reveal in reveal-delay-2">Модерен дизајн. Брзина. Резултати. Изработуваме веб страници кои ги претвораат посетителите во клиенти — за ресторани, салони, ординации, продавници и премиум брендови.</p>
@@ -680,13 +777,17 @@
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Портфолио</span>
-      <h2>Проекти во подготовка</h2>
-      <p>Секој проект ќе биде претставен тука откако ќе биде лансиран — засега, еве примери за типот на работа.</p>
+      <h2>Проекти</h2>
+      <p>Еден од проектите е веќе завршен и во живо — останатите се примери за типот на работа што ја изработувам.</p>
     </div>
     <div class="portfolio-grid">
-      <div class="portfolio-card reveal"><div class="pf-bg"></div><div class="pf-tag"><span class="eyebrow">Угостителство</span><h3>Ресторан & QR мени</h3></div></div>
-      <div class="portfolio-card reveal reveal-delay-1"><div class="pf-bg"></div><div class="pf-tag"><span class="eyebrow">Убавина</span><h3>Салон за убавина</h3></div></div>
-      <div class="portfolio-card reveal reveal-delay-2"><div class="pf-bg"></div><div class="pf-tag"><span class="eyebrow">Е-трговија</span><h3>Онлајн продавница</h3></div></div>
+      <a href="https://bloomandballoons.netlify.app/" target="_blank" rel="noopener" class="portfolio-card reveal" style="cursor:pointer;">
+        <div class="pf-bg"></div>
+        <div class="pf-live">Завршен проект — во живо</div>
+        <div class="pf-tag"><span class="eyebrow">Цвеќиња &amp; Балони</span><h3>Bloom &amp; Balloons</h3><span class="pf-link">Посети ја страницата ↗</span></div>
+      </a>
+      <div class="portfolio-card reveal reveal-delay-1"><div class="pf-bg"></div><div class="pf-tag"><span class="eyebrow">Угостителство</span><h3>Ресторан & QR мени</h3></div></div>
+      <div class="portfolio-card reveal reveal-delay-2"><div class="pf-bg"></div><div class="pf-tag"><span class="eyebrow">Убавина</span><h3>Салон за убавина</h3></div></div>
     </div>
     <p class="pf-note reveal">Сакате вашиот бизнис да биде следен? <a href="#contact" style="color:var(--blue-pale);">Контактирајте ме →</a></p>
   </div>
@@ -729,7 +830,7 @@
       <div class="price-card reveal">
         <div class="price-name">Основен</div>
         <div class="price-desc">За мали бизниси кои сакаат професионално онлајн присуство.</div>
-        <div class="price-amount">од 350€</div>
+        <div class="price-amount">од 349€</div>
         <ul class="price-list">
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Дизајн на 1 страница (One-page)</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3.2 3.2L13 5"/></svg> Целосно responsive</li>
@@ -779,17 +880,17 @@
         <h2>Подготвени сте за следното ниво?</h2>
         <p>Ајде да ја изградиме вашата нова веб страница. Пополнете ја формата или контактирајте директно — одговарам најчесто во рок од еден работен ден.</p>
         <div class="contact-channels">
-          <a href="https://instagram.com/luxweb.design" target="_blank" rel="noopener" class="channel">
+          <a href="https://www.instagram.com/lux.web.design/" target="_blank" rel="noopener" class="channel">
             <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div>
-            <div class="txt"><div class="k">Инстаграм</div><div class="v">@luxweb.design</div></div>
+            <div class="txt"><div class="k">Инстаграм</div><div class="v">@lux.web.design</div></div>
           </a>
-          <a href="https://wa.me/389XXXXXXXX" target="_blank" rel="noopener" class="channel">
+          <a href="https://wa.me/38977769944" target="_blank" rel="noopener" class="channel">
             <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20l1.4-4.2A8 8 0 1112 20a7.9 7.9 0 01-4.1-1.2L4 20Z"/></svg></div>
             <div class="txt"><div class="k">WhatsApp</div><div class="v">Дојди во разговор</div></div>
           </a>
-          <a href="mailto:info@luxweb.design" class="channel">
+          <a href="mailto:jovanovboris@yahoo.com" class="channel">
             <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
-            <div class="txt"><div class="k">Емаил</div><div class="v">info@luxweb.design</div></div>
+            <div class="txt"><div class="k">Емаил</div><div class="v">jovanovboris@yahoo.com</div></div>
           </a>
         </div>
       </div>
@@ -844,15 +945,15 @@
         </div>
         <div class="footer-col">
           <h4>Контакт</h4>
-          <a href="mailto:info@luxweb.design">info@luxweb.design</a>
-          <a href="https://instagram.com/luxweb.design" target="_blank" rel="noopener">@luxweb.design</a>
+          <a href="mailto:jovanovboris@yahoo.com">jovanovboris@yahoo.com</a>
+          <a href="https://www.instagram.com/lux.web.design/" target="_blank" rel="noopener">@lux.web.design</a>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Lux Web Design. Сите права задржани.</span>
       <div class="footer-social">
-        <a href="https://instagram.com/luxweb.design" target="_blank" rel="noopener" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="https://www.instagram.com/lux.web.design/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
       </div>
     </div>
   </div>
@@ -871,11 +972,17 @@
   burger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
   mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
 
-  // scroll reveal
+  // scroll reveal — bidirectional: fades in on the way down, fades back out
+  // as it exits either edge of the viewport, then fades in again on the way back up.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    entries.forEach(e => { e.target.classList.toggle('in', e.isIntersecting); });
+  }, { threshold: 0.15, rootMargin: '-6% 0px -6% 0px' });
+  if (!reduceMotion) {
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
 
   // subtle spotlight on service cards
   document.querySelectorAll('.service-card').forEach(card => {
@@ -886,15 +993,30 @@
     });
   });
 
-  // hero ring subtle parallax on mouse move
+  // hero ring + laptop subtle parallax on mouse move
   const heroRing = document.getElementById('heroRing');
-  if (heroRing && window.matchMedia('(pointer:fine)').matches) {
+  const laptop = document.querySelector('.laptop');
+  if (window.matchMedia('(pointer:fine)').matches && !reduceMotion) {
     document.querySelector('.hero').addEventListener('mousemove', (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 18;
       const y = (e.clientY / window.innerHeight - 0.5) * 18;
-      heroRing.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+      if (heroRing) heroRing.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+      if (laptop) laptop.style.setProperty('--tiltX', (-y * 0.6) + 'deg');
     });
   }
+
+  // hero text fades and lifts away as you scroll down, returns as you scroll back up
+  const heroContent = document.querySelector('.hero-content');
+  const heroEl = document.querySelector('.hero');
+  function onHeroScroll(){
+    if (!heroContent || !heroEl || reduceMotion) return;
+    const h = heroEl.offsetHeight || window.innerHeight;
+    const progress = Math.min(Math.max(window.scrollY / (h * 0.85), 0), 1);
+    heroContent.style.opacity = String(1 - progress);
+    heroContent.style.transform = `translateY(${progress * 60}px)`;
+  }
+  window.addEventListener('scroll', onHeroScroll, { passive: true });
+  onHeroScroll();
 
   // contact form (visual only — opens mail client)
   document.getElementById('contactForm').addEventListener('submit', function(e){
@@ -904,7 +1026,7 @@
     const type = document.getElementById('cf-type').value;
     const msg = document.getElementById('cf-msg').value;
     const body = encodeURIComponent(`Име: ${name}\nЕмаил: ${email}\nВид на бизнис: ${type}\n\nПорака:\n${msg}`);
-    window.location.href = `mailto:info@luxweb.design?subject=Ново барање преку веб страна&body=${body}`;
+    window.location.href = `mailto:jovanovboris@yahoo.com?subject=Ново барање преку веб страна&body=${body}`;
   });
 </script>
 
