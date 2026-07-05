@@ -201,7 +201,7 @@
     laptop.position.y += 0.1;
 
     pivot.rotation.x = 0.03;
-    const baseYaw = -0.42; // the "nice" 3/4 front angle — never rotate away from this
+    const baseYaw = -0.42; // starting angle — the laptop spins continuously from here
     pivot.rotation.y = baseYaw;
 
     function resize3D() {
@@ -219,10 +219,10 @@
     const clock3D = { start: performance.now() };
     function animate3D() {
       const t = (performance.now() - clock3D.start) / 1000;
-      // visible left-to-right rotation around the front 3/4 angle — wide
-      // enough to actually read as "turning", but capped so we never spin
-      // all the way around to the back lid.
-      pivot.rotation.y = baseYaw + Math.sin(t * 0.35) * 0.5;
+      // continuous full 360° rotation, left to right, forever — not a
+      // back-and-forth sway. rotation.y just keeps increasing; three.js
+      // wraps the angle automatically, so this spins smoothly without limit.
+      pivot.rotation.y = baseYaw + t * 0.4;
       pivot.rotation.x = 0.03 + Math.sin(t * 0.25) * 0.012;
       renderer.render(scene, camera);
       rafId3D = requestAnimationFrame(animate3D);
