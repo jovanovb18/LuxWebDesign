@@ -1,0 +1,76 @@
+/* ======================================================================
+   HERO SECTION — styles
+   Depends on the CSS custom properties defined in :root in the main
+   stylesheet (--bg, --blue, --blue-pale, --text, --muted, --border, etc).
+   Drop this whole block into your main <style>, or link it as its own
+   stylesheet after the base variables are declared.
+   ====================================================================== */
+
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding:140px 0 100px;
+  overflow:hidden;
+}
+
+/* rotating ring decoration behind the hero content */
+.hero-ring-wrap{
+  position:absolute;
+  top:50%;left:50%;
+  width:min(1000px, 130vw);height:min(1000px,130vw);
+  transform:translate(-50%,-50%);
+  z-index:0;
+  opacity:0.9;
+}
+
+.hero-content{
+  position:relative;z-index:2;
+  max-width:880px;margin:0 auto;
+  text-align:center;
+}
+
+.hero h1{
+  font-size:clamp(38px,6.4vw,74px);
+  line-height:1.08;
+  margin-bottom:24px;
+}
+.hero h1 em{font-style:italic;color:var(--blue-pale);}
+.hero p{font-size:18px;color:var(--muted);max-width:560px;margin:0 auto 40px;}
+.hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+
+/* ============ HERO 3D LAPTOP ============
+   This is the ONE 3D object container. The <canvas> that three.js
+   creates is injected into #hero3DScene at runtime — see hero-laptop.js.
+   There should be only ONE element like this in the whole page.
+*/
+.hero-3d-scene{
+  width:min(520px, 92vw);
+  height:min(420px, 78vw);
+  margin:0 auto 32px;
+  position:relative;
+  z-index:2;
+}
+.hero-3d-scene canvas{
+  display:block;
+  width:100% !important;
+  height:100% !important;
+}
+.hero-3d-glow{
+  position:absolute;
+  top:52%;left:50%;
+  transform:translate(-50%,-50%);
+  width:440px;height:320px;
+  background:radial-gradient(circle, rgba(80,160,255,0.30) 0%, transparent 65%);
+  filter:blur(70px);
+  z-index:0;
+  pointer-events:none;
+}
+
+@media(max-width:560px){
+  .hero-3d-scene{ height:320px; }
+}
+
+@media(prefers-reduced-motion: reduce){
+  .ring.spin{animation:none;}
+}
